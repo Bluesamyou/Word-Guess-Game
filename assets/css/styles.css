@@ -1,0 +1,27 @@
+body{
+    background-image: linear-gradient(120deg, #f093fb 0%, #f5576c 100%);
+}
+
+.swal2-input{
+    color: pink !important;
+    text-align: center;
+    border: 2px solid pink !important; 
+    border-radius: 25px !important;
+}
+
+.swal2-confirm{
+    color: white !important;
+    background: none !important;
+    border: 2px solid greenyellow !important; 
+    border-radius: 10px !important;
+}
+
+nav{
+    padding-bottom: 25px;
+}
+
+.jumbotron {
+    margin-top: 25px;
+    width: 90%; 
+    margin-left: 5%;
+}
