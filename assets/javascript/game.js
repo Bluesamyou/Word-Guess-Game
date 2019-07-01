@@ -1,4 +1,5 @@
 const alphabet = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"]
+const guessWord = document.getElementById('guess-word')
 
 var gameState = {
     user: "",
@@ -6,7 +7,9 @@ var gameState = {
     losses: 0,
     remainingTries: 12,
     currentWord: "",
-    currentWordLetters: []
+    currentWordLetters: [], 
+    usedLetters : [],
+    gameStarted : false
 }
 
 var toTitleCase = function (str) {
@@ -19,26 +22,74 @@ var toTitleCase = function (str) {
 }
 
 var setup = function () {
+    
     fetch('http://api.wordnik.com/v4/words.json/randomWord?api_key=uzuceirqshtna9m74vpps369l8w6ro1pspd2zvrw8the4welt')
         .then(response => response.json())
         .then(function (data) {
+
+
             gameState.currentWord = data.word
+            gameState.gameStarted = true
 
             for (var i = 0; i < gameState.currentWord.length; i++) {
-                gameState.currentWordLetters.push(gameState.currentWord.charAt(i));
-                var guessWord = document.getElementById('guess-word')
+                gameState.currentWordLetters.push(gameState.currentWord.charAt(i).toLowerCase());
+               
+                if(i !== gameState.currentWord.length -1){
+                    var unknownLetter = document.createElement('i')
+                    unknownLetter.setAttribute('class', 'fa fa-times fa-3x')
+                    unknownLetter.setAttribute('style', 'color:pink;')
+                    guessWord.appendChild(unknownLetter)
+                }
 
-                var unknownLetter = document.createElement('i')
-                unknownLetter.setAttribute('class', 'fa fa-times fa-5x')
-
-                guessWord.appendChild(unknownLetter)
             }
+
         })
+
 
 }
 
 onkeypress = function (event) {
+    var guessLetter = event.key.toLowerCase()
+    if (alphabet.includes(guessLetter) && gameState.gameStarted){
+        if(gameState.currentWordLetters.includes(guessLetter)){
+            
+            
+            for(i=0; i<gameState.currentWordLetters.length+1; i++){
+                console.log(gameState.currentWordLetters.length-1);
+                if (gameState.currentWordLetters[i]  === guessLetter){
+                    
+                    var replaceLetter = document.createElement('span')
+                    replaceLetter.setAttribute('class', 'guess-letter')
+                    replaceLetter.innerHTML = guessLetter.toUpperCase()
+                    guessWord.replaceChild(replaceLetter,guessWord.childNodes[i])
+                }
+            }
+            if (!(gameState.usedLetters.includes(guessLetter.toLowerCase()))){
+                
+                gameState.usedLetters.push(guessLetter.toLowerCase())
 
+                var usedLetter = document.createElement('span')
+                usedLetter.setAttribute('class', 'badge badge-success')
+                usedLetter.setAttribute('style', 'margin:1px;')
+                usedLetter.innerHTML = guessLetter.toUpperCase()
+                document.getElementById('used-letters').appendChild(usedLetter)
+            }
+
+        }
+        else{
+
+            if (!(gameState.usedLetters.includes(guessLetter.toLowerCase()))){
+                
+                gameState.usedLetters.push(guessLetter.toLowerCase())
+
+                var usedLetter = document.createElement('span')
+                usedLetter.setAttribute('class', 'badge badge-danger')
+                usedLetter.setAttribute('style', 'margin:1px;')
+                usedLetter.innerHTML = guessLetter.toUpperCase()
+                document.getElementById('used-letters').appendChild(usedLetter)
+            }
+        }
+    }
 }
 
 

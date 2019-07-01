@@ -37,6 +37,10 @@ nav{
     margin-top: 25px;
 }
 
+.guess-letter {
+    font-size: 40px;
+}
+
 /* CSS FOR FLOATING SHAPES */
 .icons {
     position: absolute;
