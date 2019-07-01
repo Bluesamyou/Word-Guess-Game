@@ -24,4 +24,61 @@ nav{
     margin-top: 25px;
     width: 90%; 
     margin-left: 5%;
+    background: rgba(0,0,0,0.8);
+    color: white;
+    border: 2px solid white; 
+    border-radius: 25px;
 }
+
+hr{
+    color: white; 
+    width: 100%;
+    border: 2px solid pink;
+}
+
+/* CSS FOR FLOATING SHAPES */
+.icons {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+  .icons .fa {
+    -webkit-font-smoothing: antialiased;
+    transition: 300ms all;
+    position: absolute;
+    font-size: 10vw;
+    animation: 10s floatUp ease-in infinite;
+    top: 100%;
+  }
+  .icons .fa:before {
+    display: inline-block;
+  }
+  .icons .fa:nth-child(odd):before {
+    animation: 40s slowRotate linear;
+  }
+  .icons .fa:nth-child(even):before {
+    animation: 30s slowRotate linear;
+    animation-direction: reverse;
+  }
+  @keyframes floatUp {
+    0% {
+      top: 110%;
+      top: calc(102%);
+    }
+    100% {
+      top: -25%;
+      top: -2em;
+    }
+  }
+  @keyframes slowRotate {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(359deg);
+    }
+  }
+  

@@ -2,6 +2,14 @@ var gameState ={
     user : ""
 }
 
+var toTitleCase = function(str) {
+    return str.replace(
+        /\w\S*/g,
+        function(txt) {
+            return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+        }
+    );
+}
 
 
 Swal.fire({
@@ -15,7 +23,12 @@ Swal.fire({
     preConfirm : (user) => {
         if (user !== ""){
             gameState.user = user;
-            document.getElementById('user').textContent = user.toUpperCase();
+            document.getElementById('user').textContent ="Welcome " + toTitleCase(user);
+        }
+        else{
+            gameState.user = "Stranger";
+            document.getElementById('user').textContent ="Welcome Stranger";
+
         }
 
     }
