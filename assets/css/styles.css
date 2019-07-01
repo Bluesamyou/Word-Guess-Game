@@ -32,10 +32,9 @@ nav{
     border-radius: 25px;
 }
 
-hr{
-    color: white; 
-    width: 100%;
-    border: 2px solid pink;
+#guess-word{
+    text-align: center;
+    margin-top: 25px;
 }
 
 /* CSS FOR FLOATING SHAPES */
