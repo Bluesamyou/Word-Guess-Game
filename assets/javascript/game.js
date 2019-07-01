@@ -53,29 +53,34 @@ var setup = function () {
 
             gameState.currentWord = data.word
             gameState.gameStarted = true
+            gameState.remainingTries = 12
+
 
             for (var i = 0; i < gameState.currentWord.length; i++) {
                 gameState.currentWordLetters.push(gameState.currentWord.charAt(i).toLowerCase());
 
-                if (i !== gameState.currentWord.length - 1) {
+                if (i !== gameState.currentWord.length ) {
                     var unknownLetter = document.createElement('i')
                     unknownLetter.setAttribute('class', 'fa fa-times fa-3x')
                     unknownLetter.setAttribute('style', 'color:pink;')
                     guessWord.appendChild(unknownLetter)
                 }
-
             }
 
         })
         .catch(function (error) {
                 console.log(error)
+
                 gameState.currentWord = offlineWords[Math.floor(Math.random() * offlineWords.length)]
                 gameState.gameStarted = true
+                gameState.remainingTries = 12
 
                 for (var i = 0; i < gameState.currentWord.length; i++) {
+                    console.log(gameState.currentWord)
+                    console.log(gameState.currentWord.length)
                     gameState.currentWordLetters.push(gameState.currentWord.charAt(i).toLowerCase());
 
-                    if (i !== gameState.currentWord.length - 1) {
+                    if (i !== gameState.currentWord.length ) {
                         var unknownLetter = document.createElement('i')
                         unknownLetter.setAttribute('class', 'fa fa-times fa-3x')
                         unknownLetter.setAttribute('style', 'color:pink;')
@@ -108,20 +113,33 @@ var setUsedLetters = function (success, guessLetter) {
 
 }
 
+var endGame = function () {
+    Swal.fire({
+        imageUrl: `./assets/images/fail-images/${failImages[Math.floor(Math.random() * failImages.length)]}`,
+        imageHeight: 125,
+        background: 'rgba(0,0,0,0.9)',
+        html: `<h3 style="color:white;">Welp! You lost</h3>
+                <h4 style="color:pink;"> The word was ${gameState.currentWord} Click on the button below to start again</h4>`,
+        preConfirm: () => {
+
+        }
+    })
+}
+
 onkeypress = function (event) {
     var guessLetter = event.key.toLowerCase()
     if (alphabet.includes(guessLetter) && gameState.gameStarted) {
         if (gameState.currentWordLetters.includes(guessLetter)) {
 
-
-            for (i = 0; i < gameState.currentWordLetters.length + 1; i++) {
-                console.log(gameState.currentWordLetters.length - 1);
+            for (i = 0; i < gameState.currentWordLetters.length; i++) {
+                console.log(gameState.currentWordLetters.length);
                 if (gameState.currentWordLetters[i] === guessLetter) {
 
                     var replaceLetter = document.createElement('span')
                     replaceLetter.setAttribute('class', 'guess-letter')
                     replaceLetter.innerHTML = guessLetter.toUpperCase()
-                    guessWord.replaceChild(replaceLetter, guessWord.childNodes[i])
+                    console.log(guessWord.childNodes)
+                    guessWord.replaceChild(replaceLetter, guessWord.childNodes[i+1])
                 }
             }
             if (!(gameState.usedLetters.includes(guessLetter.toLowerCase()))) {
@@ -136,7 +154,8 @@ onkeypress = function (event) {
 
                 gameState.remainingTries = gameState.remainingTries - 1
 
-                document.getElementById('tries-left').textContent = gameState.remainingTries
+                gameState.remainingTries === 0 ? endGame() : document.getElementById('tries-left').textContent = gameState.remainingTries
+
             }
         }
     }
