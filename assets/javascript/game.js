@@ -1,20 +1,24 @@
-const alphabet = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"]
+const alphabet = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]
 const successImages = ["beaming_face_with_smiling_eyes_1024.gif",
-                       "grinning_squinting_face_1024.gif",
-                       "heart_eyes_1024.gif",
-                       "hugging_face_1024.gif",
-                       "money_mouth_face_1024.gif",
-                       "smiling_face_with_halo_1024.gif",
-                       "star_struck_1024.gif",
-                       "tears_of_joy_1024.gif"]
+    "grinning_squinting_face_1024.gif",
+    "heart_eyes_1024.gif",
+    "hugging_face_1024.gif",
+    "money_mouth_face_1024.gif",
+    "smiling_face_with_halo_1024.gif",
+    "star_struck_1024.gif",
+    "tears_of_joy_1024.gif"
+]
 
 const failImages = ["angry_face_1024.gif",
-                    "cold_face_1024.gif",
-                    "crying_face_1024.gif",
-                    "face_with_head_bandage_1024.gif",
-                    "loudly_crying_face_1024.gif",
-                    "serious_face_with_symbols_covering_mouth_1024.gif",
-                    "triumph_face_1024.gif"] 
+    "cold_face_1024.gif",
+    "crying_face_1024.gif",
+    "face_with_head_bandage_1024.gif",
+    "loudly_crying_face_1024.gif",
+    "serious_face_with_symbols_covering_mouth_1024.gif",
+    "triumph_face_1024.gif"
+]
+
+const offlineWords = ["fine", "restrict", "hesitate", "layout", "contrary", "classroom", "concrete", "advocate", "year", "species", "hardship", "leftovers", "employ", "barrel", "central", "triangle", "breathe", "freckle", "reason", "barrier", "apparatus", "artist", "filter", "ask", "community", "dentist", "embox", "predator", "criticism", "eyebrow", "tiptoe", "cold", "realize", "coverage", "battle", "paradox", "symptom", "change", "index", "decide", "hen", "fade", "meal", "hide", "quiet", "tool", "pupil", "copper", "drawing", "value", "laser", "table", "heaven", "parallel", "confine", "testify", "hear", "allowance", "clean", "breed", "series", "tiger", "rhythm", "shaft", "strong", "depart", "conscious", "chord", "thin", "plan", "affect", "shot", "black", "trail", "intention", "activity", "degree", "slump", "scheme", "twist", "pasture", "brother", "frog", "knowledge", "childish", "injury", "bolt", "finance", "flat", "overview", "van", "decisive", "warm", "memory", "treasurer", "entertain", "prison", "easy", "gold", "resource"]
 
 const guessWord = document.getElementById('guess-word')
 
@@ -26,9 +30,9 @@ var gameState = {
     losses: 0,
     remainingTries: 12,
     currentWord: "",
-    currentWordLetters: [], 
-    usedLetters : [],
-    gameStarted : false
+    currentWordLetters: [],
+    usedLetters: [],
+    gameStarted: false
 }
 
 var toTitleCase = function (str) {
@@ -52,8 +56,8 @@ var setup = function () {
 
             for (var i = 0; i < gameState.currentWord.length; i++) {
                 gameState.currentWordLetters.push(gameState.currentWord.charAt(i).toLowerCase());
-               
-                if(i !== gameState.currentWord.length -1){
+
+                if (i !== gameState.currentWord.length - 1) {
                     var unknownLetter = document.createElement('i')
                     unknownLetter.setAttribute('class', 'fa fa-times fa-3x')
                     unknownLetter.setAttribute('style', 'color:pink;')
@@ -63,55 +67,72 @@ var setup = function () {
             }
 
         })
+        .catch(function (error) {
+                console.log(error)
+                gameState.currentWord = offlineWords[Math.floor(Math.random() * offlineWords.length)]
+                gameState.gameStarted = true
+
+                for (var i = 0; i < gameState.currentWord.length; i++) {
+                    gameState.currentWordLetters.push(gameState.currentWord.charAt(i).toLowerCase());
+
+                    if (i !== gameState.currentWord.length - 1) {
+                        var unknownLetter = document.createElement('i')
+                        unknownLetter.setAttribute('class', 'fa fa-times fa-3x')
+                        unknownLetter.setAttribute('style', 'color:pink;')
+                        guessWord.appendChild(unknownLetter)
+                    }
+
+                }
+            }
+
+        )
 
 
 }
 
-var setUsedLetters =  function(success, guessLetter){
+var setUsedLetters = function (success, guessLetter) {
     gameState.usedLetters.push(guessLetter.toLowerCase())
 
 
     var usedLetter = document.createElement('span')
-    
+
     success ? usedLetter.setAttribute('class', 'badge badge-success') : usedLetter.setAttribute('class', 'badge badge-danger')
     usedLetter.setAttribute('style', 'margin:1px;')
     usedLetter.innerHTML = guessLetter.toUpperCase()
     document.getElementById('used-letters').appendChild(usedLetter)
 
-    success ? 
-        document.getElementById('status-image').src = './assets/images/success-image/' + successImages[Math.floor(Math.random()*successImages.length)]
-        :
-        document.getElementById('status-image').src = './assets/images/fail-images/' + failImages[Math.floor(Math.random()*failImages.length)]
+    success ?
+        document.getElementById('status-image').src = './assets/images/success-image/' + successImages[Math.floor(Math.random() * successImages.length)] :
+        document.getElementById('status-image').src = './assets/images/fail-images/' + failImages[Math.floor(Math.random() * failImages.length)]
 
 
 }
 
 onkeypress = function (event) {
     var guessLetter = event.key.toLowerCase()
-    if (alphabet.includes(guessLetter) && gameState.gameStarted){
-        if(gameState.currentWordLetters.includes(guessLetter)){
-            
-            
-            for(i=0; i<gameState.currentWordLetters.length+1; i++){
-                console.log(gameState.currentWordLetters.length-1);
-                if (gameState.currentWordLetters[i]  === guessLetter){
-                    
+    if (alphabet.includes(guessLetter) && gameState.gameStarted) {
+        if (gameState.currentWordLetters.includes(guessLetter)) {
+
+
+            for (i = 0; i < gameState.currentWordLetters.length + 1; i++) {
+                console.log(gameState.currentWordLetters.length - 1);
+                if (gameState.currentWordLetters[i] === guessLetter) {
+
                     var replaceLetter = document.createElement('span')
                     replaceLetter.setAttribute('class', 'guess-letter')
                     replaceLetter.innerHTML = guessLetter.toUpperCase()
-                    guessWord.replaceChild(replaceLetter,guessWord.childNodes[i])
+                    guessWord.replaceChild(replaceLetter, guessWord.childNodes[i])
                 }
             }
-            if (!(gameState.usedLetters.includes(guessLetter.toLowerCase()))){
-                setUsedLetters(true,guessLetter)
+            if (!(gameState.usedLetters.includes(guessLetter.toLowerCase()))) {
+                setUsedLetters(true, guessLetter)
             }
-            
 
-        }
-        else{
 
-            if (!(gameState.usedLetters.includes(guessLetter.toLowerCase()))){
-                setUsedLetters(false,guessLetter)
+        } else {
+
+            if (!(gameState.usedLetters.includes(guessLetter.toLowerCase()))) {
+                setUsedLetters(false, guessLetter)
 
                 gameState.remainingTries = gameState.remainingTries - 1
 
