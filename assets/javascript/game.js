@@ -1,5 +1,24 @@
 const alphabet = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"]
+const successImages = ["beaming_face_with_smiling_eyes_1024.gif",
+                       "grinning_squinting_face_1024.gif",
+                       "heart_eyes_1024.gif",
+                       "hugging_face_1024.gif",
+                       "money_mouth_face_1024.gif",
+                       "smiling_face_with_halo_1024.gif",
+                       "star_struck_1024.gif",
+                       "tears_of_joy_1024.gif"]
+
+const failImages = ["angry_face_1024.gif",
+                    "cold_face_1024.gif",
+                    "crying_face_1024.gif",
+                    "face_with_head_bandage_1024.gif",
+                    "loudly_crying_face_1024.gif",
+                    "serious_face_with_symbols_covering_mouth_1024.gif",
+                    "triumph_face_1024.gif"] 
+
 const guessWord = document.getElementById('guess-word')
+
+
 
 var gameState = {
     user: "",
@@ -22,7 +41,7 @@ var toTitleCase = function (str) {
 }
 
 var setup = function () {
-    
+
     fetch('http://api.wordnik.com/v4/words.json/randomWord?api_key=uzuceirqshtna9m74vpps369l8w6ro1pspd2zvrw8the4welt')
         .then(response => response.json())
         .then(function (data) {
@@ -48,6 +67,25 @@ var setup = function () {
 
 }
 
+var setUsedLetters =  function(success, guessLetter){
+    gameState.usedLetters.push(guessLetter.toLowerCase())
+
+
+    var usedLetter = document.createElement('span')
+    
+    success ? usedLetter.setAttribute('class', 'badge badge-success') : usedLetter.setAttribute('class', 'badge badge-danger')
+    usedLetter.setAttribute('style', 'margin:1px;')
+    usedLetter.innerHTML = guessLetter.toUpperCase()
+    document.getElementById('used-letters').appendChild(usedLetter)
+
+    success ? 
+        document.getElementById('status-image').src = './assets/images/success-image/' + successImages[Math.floor(Math.random()*successImages.length)]
+        :
+        document.getElementById('status-image').src = './assets/images/fail-images/' + failImages[Math.floor(Math.random()*failImages.length)]
+
+
+}
+
 onkeypress = function (event) {
     var guessLetter = event.key.toLowerCase()
     if (alphabet.includes(guessLetter) && gameState.gameStarted){
@@ -65,28 +103,19 @@ onkeypress = function (event) {
                 }
             }
             if (!(gameState.usedLetters.includes(guessLetter.toLowerCase()))){
-                
-                gameState.usedLetters.push(guessLetter.toLowerCase())
-
-                var usedLetter = document.createElement('span')
-                usedLetter.setAttribute('class', 'badge badge-success')
-                usedLetter.setAttribute('style', 'margin:1px;')
-                usedLetter.innerHTML = guessLetter.toUpperCase()
-                document.getElementById('used-letters').appendChild(usedLetter)
+                setUsedLetters(true,guessLetter)
             }
+            
 
         }
         else{
 
             if (!(gameState.usedLetters.includes(guessLetter.toLowerCase()))){
-                
-                gameState.usedLetters.push(guessLetter.toLowerCase())
+                setUsedLetters(false,guessLetter)
 
-                var usedLetter = document.createElement('span')
-                usedLetter.setAttribute('class', 'badge badge-danger')
-                usedLetter.setAttribute('style', 'margin:1px;')
-                usedLetter.innerHTML = guessLetter.toUpperCase()
-                document.getElementById('used-letters').appendChild(usedLetter)
+                gameState.remainingTries = gameState.remainingTries - 1
+
+                document.getElementById('tries-left').textContent = gameState.remainingTries
             }
         }
     }
