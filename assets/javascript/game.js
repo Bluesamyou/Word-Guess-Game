@@ -46,7 +46,7 @@ var toTitleCase = function (str) {
 
 var setup = function () {
 
-    fetch('http://api.wordnik.com/v4/words.json/randomWord?minLength=4&maxLength=10&includePartOfSpeech=noun&api_key=uzuceirqshtna9m74vpps369l8w6ro1pspd2zvrw8the4welt')
+    fetch('https://api.wordnik.com/v4/words.json/randomWord?minLength=4&maxLength=10&includePartOfSpeech=noun&api_key=uzuceirqshtna9m74vpps369l8w6ro1pspd2zvrw8the4welt')
         .then(response => response.json())
         .then(function (data) {
 
