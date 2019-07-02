@@ -46,7 +46,7 @@ var toTitleCase = function (str) {
 
 var setup = function () {
 
-    fetch('http://api.wordnik.com/v4/words.json/randomWord?api_key=uzuceirqshtna9m74vpps369l8w6ro1pspd2zvrw8the4welt')
+    fetch('http://api.wordnik.com/v4/words.json/randomWord?minLength=4&maxLength=10&includePartOfSpeech=noun&api_key=uzuceirqshtna9m74vpps369l8w6ro1pspd2zvrw8the4welt')
         .then(response => response.json())
         .then(function (data) {
 
@@ -54,12 +54,13 @@ var setup = function () {
             gameState.currentWord = data.word
             gameState.gameStarted = true
             gameState.remainingTries = 12
+            document.getElementById('tries-left').textContent = gameState.remainingTries
 
 
             for (var i = 0; i < gameState.currentWord.length; i++) {
                 gameState.currentWordLetters.push(gameState.currentWord.charAt(i).toLowerCase());
 
-                if (i !== gameState.currentWord.length ) {
+                if (i !== gameState.currentWord.length) {
                     var unknownLetter = document.createElement('i')
                     unknownLetter.setAttribute('class', 'fa fa-times fa-3x')
                     unknownLetter.setAttribute('style', 'color:pink;')
@@ -74,13 +75,14 @@ var setup = function () {
                 gameState.currentWord = offlineWords[Math.floor(Math.random() * offlineWords.length)]
                 gameState.gameStarted = true
                 gameState.remainingTries = 12
+                document.getElementById('tries-left') = gameState.remainingTries
 
                 for (var i = 0; i < gameState.currentWord.length; i++) {
                     console.log(gameState.currentWord)
                     console.log(gameState.currentWord.length)
                     gameState.currentWordLetters.push(gameState.currentWord.charAt(i).toLowerCase());
 
-                    if (i !== gameState.currentWord.length ) {
+                    if (i !== gameState.currentWord.length) {
                         var unknownLetter = document.createElement('i')
                         unknownLetter.setAttribute('class', 'fa fa-times fa-3x')
                         unknownLetter.setAttribute('style', 'color:pink;')
@@ -114,6 +116,7 @@ var setUsedLetters = function (success, guessLetter) {
 }
 
 var endGame = function () {
+    gameState.gameStarted = false
     Swal.fire({
         imageUrl: `./assets/images/fail-images/${failImages[Math.floor(Math.random() * failImages.length)]}`,
         imageHeight: 125,
@@ -121,7 +124,13 @@ var endGame = function () {
         html: `<h3 style="color:white;">Welp! You lost</h3>
                 <h4 style="color:pink;"> The word was ${gameState.currentWord} Click on the button below to start again</h4>`,
         preConfirm: () => {
-
+            gameState.losses = gameState.losses + 1
+            document.getElementById('losses').textContent = gameState.losses
+            gameState.currentWord = ""
+            gameState.currentWordLetters = []
+            guessWord.innerHTML = ""
+            document.getElementById('used-letters').innerHTML = ""
+            setup()
         }
     })
 }
@@ -139,7 +148,7 @@ onkeypress = function (event) {
                     replaceLetter.setAttribute('class', 'guess-letter')
                     replaceLetter.innerHTML = guessLetter.toUpperCase()
                     console.log(guessWord.childNodes)
-                    guessWord.replaceChild(replaceLetter, guessWord.childNodes[i+1])
+                    guessWord.replaceChild(replaceLetter, guessWord.childNodes[i + 1])
                 }
             }
             if (!(gameState.usedLetters.includes(guessLetter.toLowerCase()))) {
