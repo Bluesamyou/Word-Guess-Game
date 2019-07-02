@@ -50,11 +50,12 @@ var setup = function () {
         .then(response => response.json())
         .then(function (data) {
 
-
+            
             gameState.currentWord = data.word
             gameState.gameStarted = true
             gameState.remainingTries = 12
             document.getElementById('tries-left').textContent = gameState.remainingTries
+            document.getElementById('guess-word').innerHTML = ""
 
 
             for (var i = 0; i < gameState.currentWord.length; i++) {
@@ -76,6 +77,7 @@ var setup = function () {
                 gameState.gameStarted = true
                 gameState.remainingTries = 12
                 document.getElementById('tries-left') = gameState.remainingTries
+                document.getElementById('guess-word').innerHTML = ""
 
                 for (var i = 0; i < gameState.currentWord.length; i++) {
                     console.log(gameState.currentWord)
@@ -129,7 +131,6 @@ var endGame = function () {
             gameState.currentWord = ""
             gameState.currentWordLetters = []
             guessWord.innerHTML = ""
-            document.getElementById('used-letters').innerHTML = ""
             setup()
         }
     })
@@ -148,7 +149,7 @@ onkeypress = function (event) {
                     replaceLetter.setAttribute('class', 'guess-letter')
                     replaceLetter.innerHTML = guessLetter.toUpperCase()
                     console.log(guessWord.childNodes)
-                    guessWord.replaceChild(replaceLetter, guessWord.childNodes[i + 1])
+                    guessWord.replaceChild(replaceLetter, guessWord.childNodes[i])
                 }
             }
             if (!(gameState.usedLetters.includes(guessLetter.toLowerCase()))) {
