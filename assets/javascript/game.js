@@ -1,3 +1,4 @@
+// Day by day we stray futher from God
 const alphabet = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]
 const successImages = ["beaming_face_with_smiling_eyes_1024.gif",
     "grinning_squinting_face_1024.gif",
@@ -117,6 +118,28 @@ var setUsedLetters = function (success, guessLetter) {
 
 }
 
+var checkWin = function(guesses, word){
+    if (word.every(letter => guesses.includes(letter))){
+        gameState.gameStarted = false
+        Swal.fire({
+            imageUrl: `./assets/images/success-image/${successImages[Math.floor(Math.random() * successImages.length)]}`,
+            imageHeight: 125,
+            background: 'rgba(0,0,0,0.9)',
+            html: `<h3 style="color:white;">Woohoo you win</h3>
+                    <h4 style="color:pink;">Press the enter button to restart or click the button below</h4>`,
+            allowOutsideClick : false,
+            preConfirm: () => {
+                gameState.losses = gameState.wins + 1
+                document.getElementById('wins').textContent = gameState.wins
+                gameState.currentWord = ""
+                gameState.currentWordLetters = []
+                guessWord.innerHTML = ""
+                setup()
+            }
+        })
+    }
+}
+
 var endGame = function () {
     gameState.gameStarted = false
     Swal.fire({
@@ -125,6 +148,7 @@ var endGame = function () {
         background: 'rgba(0,0,0,0.9)',
         html: `<h3 style="color:white;">Welp! You lost</h3>
                 <h4 style="color:pink;"> The word was ${gameState.currentWord} Click on the button below to start again</h4>`,
+        allowOutsideClick : false,
         preConfirm: () => {
             gameState.losses = gameState.losses + 1
             document.getElementById('losses').textContent = gameState.losses
@@ -154,6 +178,8 @@ onkeypress = function (event) {
             }
             if (!(gameState.usedLetters.includes(guessLetter.toLowerCase()))) {
                 setUsedLetters(true, guessLetter)
+
+                checkWin(gameState.usedLetters, gameState.currentWordLetters)
             }
 
 
@@ -180,6 +206,7 @@ Swal.fire({
     html: `<h3 style="color:white;">Hello there,</h3>
             <h4 style="color:pink;"> Please enter your name below to begin</h4>`,
     input: 'text',
+    allowOutsideClick : false,
     preConfirm: (user) => {
         if (user !== "") {
             gameState.user = user;
