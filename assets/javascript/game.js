@@ -91,7 +91,7 @@ Swal.fire({
     backdrop : 'rgba(255,105,180,0.4)',  
 })
 
-    fetch(`http://api.wordnik.com/v4/word.json/${gameState.currentWord}/definitions?api_key=uzuceirqshtna9m74vpps369l8w6ro1pspd2zvrw8the4welt`)
+    fetch(`https://api.wordnik.com/v4/word.json/${gameState.currentWord}/definitions?api_key=uzuceirqshtna9m74vpps369l8w6ro1pspd2zvrw8the4welt`)
     .then(response => response.json())
     
     .then(function (data) {
@@ -185,8 +185,9 @@ var setup = function () {
                     }
 
                 }
+                prompt()
             }
-            prompt()
+            
         )
 
 
