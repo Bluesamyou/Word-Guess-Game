@@ -21,7 +21,6 @@
 
     <title>Word Guess Game</title>
 </head>
-
 <body>
     <nav class="navbar navbar-dark bg-dark">
         <a class="navbar-brand" href="#">
@@ -30,62 +29,61 @@
             Guessmoji
         </a>
     </nav>
+    <div class="container">
+        <div class="row">
+            <div class="jumbotron game-info">
+                <div class="row">
+                    <div class="col-12 col-md-6">
+                        <div id="user"></div>
+                        <p class="lead">To play simply type in your guesses on the keyboard. click the rules button below to learn how to play</p>
+                    </div>
+                    <hr>
+                    <div class="col-12 col-md-6">
+                        <div class="row">
+                            <div class="col-4">
+                                <img src="./assets/images/beaming_face_with_smiling_eyes_1024.gif" alt="Status Image"
+                                    width="120" height="120" id="status-image">
 
-    <div class="row">
+                            </div>
+                            <div class="col-8">
+                                <h4>Scores</h4>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <span style="color:greenyellow;">Wins</span>
+                                    </div>
+                                    <div class="col-6" id="wins">
+                                        0
+                                    </div>
+                                    <div class="col-6">
+                                        <span style="color:red;">Losses</span>
+                                    </div>
+                                    <div class="col-6" id="losses">
+                                        0
+                                    </div>
+                                    <div class="col-6">
+                                        <span style="color:pink;">Tries Left</span>
+                                    </div>
+                                    <div class="col-6" id="tries-left">
+                                        12
+                                    </div>
+                                    <div class="col-6">
+                                        <span style="color:orange;">Used Letters</span>
+                                    </div>
+                                    <div class="col-6" id="used-letters">
+                                    </div>
 
-        <div class="jumbotron game-info">
-            <div class="row">
-
-
-                <div class="col-12 col-md-6">
-                    <div id="user"></div>
-                    <h4>Rules</h4>
-                    <p class="lead">Guess the word with the word in under 12 tries to win</p>
-                </div>
-                <hr>
-                <div class="col-12 col-md-6">
-                    <div class="row">
-                        <div class="col-4">
-                            <img src="./assets/images/beaming_face_with_smiling_eyes_1024.gif" alt="Status Image" width="120" height="120" id="status-image">
-                        </div>
-                        <div class="col-8">
-                            <h4>Scores</h4>
-                            <div class="row">
-                                <div class="col-6">
-                                    <span style="color:greenyellow;">Wins</span>
-                                </div>
-                                <div class="col-6" id="wins">
-                                    0
-                                </div>
-                                <div class="col-6">
-                                    <span style="color:red;">Losses</span>
-                                </div>
-                                <div class="col-6" id="losses">
-                                    0
-                                </div>
-                                <div class="col-6">
-                                    <span style="color:white;">Tries Left</span>
-                                </div>
-                                <div class="col-6" id="tries-left">
-                                    12
-                                </div>
-                                <div class="col-6">
-                                    <span style="color:orange;">Used Letters</span>
-                                </div>
-                                <div class="col-6" id="used-letters">
                                 </div>
                             </div>
-
                         </div>
-                    </div>
                         <div id="guess-word">
                         </div>
+                        <button type="button" class="btn" id="hint-button">Hint</button>  
+                        <button type="button" class="btn" id="rules-button">Rules</button>  
 
+                    </div>
                 </div>
             </div>
-
         </div>
-
     </div>
 
 

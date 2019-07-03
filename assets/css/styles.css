@@ -24,7 +24,7 @@ hr{
     margin: 10px;
 }
 
-@media only screen and (min-width: 720px) {
+@media only screen and (min-width: 800px) {
     hr{
         display : none;
     }
@@ -32,6 +32,36 @@ hr{
 
 nav{
     padding-bottom: 25px;
+}
+
+#hint-button, #rules-button{
+    color: white;
+    background: none ;
+    border-radius: 25px;
+    margin-top: 25px;
+}
+
+#rules-button {
+    border: 2px solid orangered; 
+    margin-left: 10%; 
+    width : 35%;
+}
+
+#rules-button:hover {
+    background: rgba(0,0,0,0.6);
+    color: red;
+}
+
+
+#hint-button{
+    border: 2px solid greenyellow; 
+    margin-left: 10%; 
+    width : 35%;
+}
+
+#hint-button:hover {
+    background: rgba(0,0,0,0.6);
+    color: greenyellow;
 }
 
 .jumbotron {
