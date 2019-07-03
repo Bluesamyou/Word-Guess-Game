@@ -61,13 +61,17 @@ var playAudio = function(url){
 
 document.getElementById('rules-button').onclick = function(event){
     Swal.fire({
-        imageUrl: './assets/images/beaming_face_with_smiling_eyes_1024.gif',
+        imageUrl: './assets/images/trophy_1024.gif',
         imageHeight: 125,
         imageAlt: 'A tall image',
         background: 'rgba(0,0,0,0.9)',
         html: `<h3 style="color:white;">Rules</h3>
                 <ul>
-                    <li>Rule no.1 of guessmoji, we do not speak of guessmoji</li>
+                    <li>A word will be selected at random and you have 12 tries to guess the word</li>
+                    <li>To guess a word simply press the key that corresponds to that letter on your keyboard</li>
+                    <li>Each incorrect guess reduces the number of guesses left. Correct guesses do not</li>
+                    <li>Guesses are not reduced for typing a previouly incorrect guess again</li>
+                    <li>A hint to the word can be found by clicking the hint button</li>
                 </ul>`,
         backdrop : 'rgba(255,105,180,0.4)'
         
@@ -84,8 +88,7 @@ Swal.fire({
     html: `<h3 style="color:white;">Loading Hint...</h3>`,
     allowOutsideClick: false, 
     showConfirmButton : false, 
-    backdrop : 'rgba(255,105,180,0.4)'
-    
+    backdrop : 'rgba(255,105,180,0.4)',  
 })
 
     fetch(`http://api.wordnik.com/v4/word.json/${gameState.currentWord}/definitions?api_key=uzuceirqshtna9m74vpps369l8w6ro1pspd2zvrw8the4welt`)
@@ -95,7 +98,7 @@ Swal.fire({
 
         data[0]['text'] !==  undefined ?
         Swal.update({
-            imageUrl: `./assets/images/success-image/${successImages[Math.floor(Math.random() * successImages.length)]}`,
+            imageUrl: `./assets/images/face_with_monocle_1024.gif`,
             imageHeight: 125,
             background: 'rgba(0,0,0,0.9)',
             html: `<h3 style="color:white;">Hint</h3>
@@ -236,8 +239,10 @@ var endGame = function () {
         imageHeight: 125,
         background: 'rgba(0,0,0,0.9)',
         html: `<h3 style="color:white;">Welp! You lost</h3>
-                <h4 style="color:pink;"> The word was ${gameState.currentWord.toUpperCase()}. Click on the button below to start again</h4>`,
+                <h4 style="color:pink;"> The word was <span style="color:white;">${gameState.currentWord.toUpperCase()}</span>.</h4>
+                <p style="color:white;">Click on the button below to start again</p>`,
         allowOutsideClick: false,
+        
         backdrop : 'rgba(255,105,180,0.2)',
         preConfirm: () => {
             gameState.losses = gameState.losses + 1
@@ -304,6 +309,7 @@ Swal.fire({
     input: 'text',
     backdrop : 'rgba(255,105,180,0.2)',
     allowOutsideClick: false,
+    allowEscapeKey : false,
     preConfirm: (user) => {
         if (user !== "") {
             gameState.user = user;

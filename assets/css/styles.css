@@ -26,17 +26,17 @@ hr{
 
 
 ul {
-    list-style: none; /* Remove default bullets */
+    list-style: none;
     color: white;
   }
   
   ul li::before {
-    content: "\2022"; 
+    content: "\29bf"; 
     color: pink; 
-    font-weight: bold;
-    display: inline-block; /* Needed to add space between the bullet and the text */ 
-    width: 1em; /* Also needed for space (tweak if needed) */
-    margin-left: -1em; /* Also needed for space (tweak if needed) */
+    font-weight: bolder;
+    display: inline-block;
+    width: 1em; 
+    margin-left: -1em; 
   }
 @media only screen and (min-width: 800px) {
     hr{
