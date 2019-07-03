@@ -53,6 +53,27 @@ var toTitleCase = function (str) {
     );
 }
 
+
+var playAudio = function(url){
+    var audio = new Audio(url)
+    audio.play()
+}
+
+document.getElementById('rules-button').onclick = function(event){
+    Swal.fire({
+        imageUrl: './assets/images/beaming_face_with_smiling_eyes_1024.gif',
+        imageHeight: 125,
+        imageAlt: 'A tall image',
+        background: 'rgba(0,0,0,0.9)',
+        html: `<h3 style="color:white;">Rules</h3>
+                <ul>
+                    <li>Rule no.1 of guessmoji, we do not speak of guessmoji</li>
+                </ul>`,
+        backdrop : 'rgba(255,105,180,0.4)'
+        
+    })
+}
+
 document.getElementById('hint-button').onclick = function(event){
     
 Swal.fire({
@@ -247,6 +268,8 @@ onkeypress = function (event) {
             }
             if (!(gameState.usedLetters.includes(guessLetter.toLowerCase()))) {
                 setUsedLetters(true, guessLetter)
+                
+                playAudio('https://www.soundjay.com/misc/sounds/magic-chime-02.mp3')
 
                 checkWin(gameState.usedLetters, gameState.currentWordLetters)
             }
@@ -257,6 +280,8 @@ onkeypress = function (event) {
             if (!(gameState.usedLetters.includes(guessLetter.toLowerCase()))) {
                 setUsedLetters(false, guessLetter)
 
+                playAudio('https://www.zapsplat.com/wp-content/uploads/2015/sound-effects-27787/zapsplat_multimedia_game_sound_error_incorrect_001_30721.mp3')
+
                 gameState.remainingTries = gameState.remainingTries - 1
 
                 gameState.remainingTries === 0 ? endGame() : document.getElementById('tries-left').textContent = gameState.remainingTries
@@ -265,6 +290,8 @@ onkeypress = function (event) {
         }
     }
 }
+
+
 
 
 Swal.fire({

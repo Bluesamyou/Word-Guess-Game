@@ -24,6 +24,20 @@ hr{
     margin: 10px;
 }
 
+
+ul {
+    list-style: none; /* Remove default bullets */
+    color: white;
+  }
+  
+  ul li::before {
+    content: "\2022"; 
+    color: pink; 
+    font-weight: bold;
+    display: inline-block; /* Needed to add space between the bullet and the text */ 
+    width: 1em; /* Also needed for space (tweak if needed) */
+    margin-left: -1em; /* Also needed for space (tweak if needed) */
+  }
 @media only screen and (min-width: 800px) {
     hr{
         display : none;
