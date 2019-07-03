@@ -159,7 +159,7 @@ var setup = function () {
                     guessWord.appendChild(unknownLetter)
                 }
             }
-
+            prompt()
         })
         .catch(function (error) {
                 console.log(error)
@@ -186,7 +186,7 @@ var setup = function () {
 
                 }
             }
-
+            prompt()
         )
 
 
