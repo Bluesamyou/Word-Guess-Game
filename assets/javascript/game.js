@@ -1,5 +1,3 @@
-// Day by day we stray futher from God
-
 // Alphabet to match key strokes to valid alphetic characters
 const alphabet = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "-"]
 
@@ -24,7 +22,7 @@ const failImages = ["angry_face_1024.gif",
     "triumph_face_1024.gif"
 ]
 
-// Offline words array incase wordnik api cannot be reached
+// Offline words array in case wordnik api cannot be reached
 const offlineWords = ["fine", "restrict", "hesitate", "layout", "contrary", "classroom", "concrete", "advocate", "year", "species", "hardship", "leftovers", "employ", "barrel", "central", "triangle", "breathe", "freckle", "reason", "barrier", "apparatus", "artist", "filter", "ask", "community", "dentist", "embox", "predator", "criticism", "eyebrow", "tiptoe", "cold", "realize", "coverage", "battle", "paradox", "symptom", "change", "index", "decide", "hen", "fade", "meal", "hide", "quiet", "tool", "pupil", "copper", "drawing", "value", "laser", "table", "heaven", "parallel", "confine", "testify", "hear", "allowance", "clean", "breed", "series", "tiger", "rhythm", "shaft", "strong", "depart", "conscious", "chord", "thin", "plan", "affect", "shot", "black", "trail", "intention", "activity", "degree", "slump", "scheme", "twist", "pasture", "brother", "frog", "knowledge", "childish", "injury", "bolt", "finance", "flat", "overview", "van", "decisive", "warm", "memory", "treasurer", "entertain", "prison", "easy", "gold", "resource"]
 
 // Const reference to the word to guess div as it is used multiple times
@@ -58,7 +56,6 @@ var playAudio = function (url) {
     var audio = new Audio(url)
     audio.play()
 }
-
 
 // Opens the rules modal
 document.getElementById('rules-button').onclick = function (event) {
@@ -99,7 +96,7 @@ document.getElementById('hint-button').onclick = function (event) {
 
         .then(function (data) {
             // Fires modal with definition
-            data[0]['text'] !== undefined ?
+            if (data[0]['text'] !== undefined){
                 Swal.update({
                     imageUrl: `./assets/images/face_with_monocle_1024.gif`,
                     imageHeight: 125,
@@ -108,18 +105,20 @@ document.getElementById('hint-button').onclick = function (event) {
                    <p style="color:pink;">${data[0]['text']}</p>`,
                     allowOutsideClick: false,
                     showConfirmButton: true,
-                }) :
+                }) 
+            }else{
+                //Fires error modal if api returns undefined
                 Swal.update({
                     imageUrl: `./assets/images/flushed_face_1024.gif`,
                     imageHeight: 125,
                     background: 'rgba(0,0,0,0.9)',
                     html: `<h3 style="color:white;">Well this is embarrassing</h3>
-                   <p style="color:pink;">Looks like we couldn't fetch the hint for this word</p>
-                   <p style="color:pink;">You're on your own kiddo</p>`,
+                    <p style="color:pink;">Looks like we couldn't fetch the hint for this word</p>
+                    <p style="color:pink;">You're on your own kiddo</p>`,
                     allowOutsideClick: false,
                     showConfirmButton: true
                 })
-
+            }
         })
         .catch(error => {
             // Exception handler for failed fetch
@@ -187,8 +186,6 @@ var setup = function () {
                     unknownLetter.setAttribute('class', 'fa fa-times fa-3x')
                     unknownLetter.setAttribute('style', 'color:pink;')
                     guessWord.appendChild(unknownLetter)
-
-
                 }
             }
 
@@ -214,7 +211,8 @@ var setUsedLetters = function (success, guessLetter) {
 
     // Picks random success/fail image based on guess
     success ?
-        document.getElementById('status-image').src = './assets/images/success-image/' + successImages[Math.floor(Math.random() * successImages.length)] :
+        document.getElementById('status-image').src = './assets/images/success-image/' + successImages[Math.floor(Math.random() * successImages.length)] 
+        :
         document.getElementById('status-image').src = './assets/images/fail-images/' + failImages[Math.floor(Math.random() * failImages.length)]
 
 }
